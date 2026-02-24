@@ -1,0 +1,17 @@
+mana:
+  max: 100
+  regen_per_second: 5
+
+actionbar:
+  enabled: true
+  update_ticks: 5
+
+wand:
+  material: STICK
+  name: "&bBaguette Magique"
+  custom_model_data: 1001
+
+spells:
+  default_list:
+    - "stupefix"
+    - "protego"

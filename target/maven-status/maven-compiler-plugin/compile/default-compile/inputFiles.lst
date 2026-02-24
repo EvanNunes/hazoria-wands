@@ -1,0 +1,12 @@
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/HazoriaWands.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/command/WandsCommand.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/listener/WandListener.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/spell/Spell.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/spell/SpellRegistry.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/spell/impl/ProtegoSpell.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/spell/impl/StupefixSpell.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/ui/ActionBarService.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/util/Colors.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/wand/WandItemService.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/wand/WandState.java
+/home/evan/Documents/dev_avancé/hazoria-wands/src/main/java/hazoria/fr/hazoriaWands/wand/WandStateService.java

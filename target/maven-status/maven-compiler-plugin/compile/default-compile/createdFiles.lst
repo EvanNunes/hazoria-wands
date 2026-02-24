@@ -1,0 +1,13 @@
+hazoria/fr/hazoriaWands/listener/WandListener.class
+hazoria/fr/hazoriaWands/wand/WandStateService.class
+hazoria/fr/hazoriaWands/HazoriaWands.class
+hazoria/fr/hazoriaWands/spell/impl/StupefixSpell.class
+hazoria/fr/hazoriaWands/wand/WandItemService.class
+hazoria/fr/hazoriaWands/spell/SpellRegistry.class
+hazoria/fr/hazoriaWands/command/WandsCommand.class
+hazoria/fr/hazoriaWands/ui/ActionBarService.class
+hazoria/fr/hazoriaWands/listener/WandListener$1.class
+hazoria/fr/hazoriaWands/util/Colors.class
+hazoria/fr/hazoriaWands/spell/Spell.class
+hazoria/fr/hazoriaWands/wand/WandState.class
+hazoria/fr/hazoriaWands/spell/impl/ProtegoSpell.class

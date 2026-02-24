@@ -1,0 +1,14 @@
+name: hazoria-wands
+version: '1.0'
+main: hazoria.fr.hazoriaWands.HazoriaWands
+api-version: "1.21"
+author: Hazoria/Evan
+
+commands:
+  wands:
+    description: Manage wands
+    usage: /wands
+
+permissions:
+  hazoriawands.admin:
+    default: op
