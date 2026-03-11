@@ -37,7 +37,16 @@ public class ActionBarService {
                 String spellId = wandItemService.getSelectedSpellId(wand);
                 int mana = wandStateService.getMana(p.getUniqueId());
 
-                String msg = Colors.color("&bMana: &f" + mana + "&7 | &e" + (spellId == null ? "Aucun" : spellId));
+                String cdPart = "";
+                if (spellId != null) {
+                    long remainingMs = wandStateService.getRemainingCooldownMs(p.getUniqueId(), spellId);
+                    if (remainingMs > 0) {
+                        String seconds = String.format("%.1f", remainingMs / 1000.0);
+                        cdPart = Colors.color(" &7| ⏳ CD: &c" + seconds + "s");
+                    }
+                }
+
+                String msg = Colors.color("&bMana: &f" + mana + "&7 | &e" + (spellId == null ? "Aucun" : spellId)) + cdPart;
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
             }
         }, period, period);

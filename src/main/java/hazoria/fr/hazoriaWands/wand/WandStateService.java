@@ -64,6 +64,10 @@ public class WandStateService {
         }, 20L, 20L);
     }
 
+    public long getRemainingCooldownMs(UUID uuid, String spellId) {
+        return getOrCreate(uuid).getRemainingCooldownMs(spellId);
+    }
+
     public void saveAll() {
         for (Map.Entry<UUID, WandState> entry : states.entrySet()) {
             playerDataService.save(entry.getKey(), entry.getValue().getMana());

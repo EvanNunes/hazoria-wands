@@ -494,3 +494,228 @@ Crucio:
         particle_offset_y: 0.6
         particle_offset_z: 0.3
         particle_target: target
+
+
+# -------------------------------------------------------
+# Alohomora — Déverrouillage (sort utilitaire offensif)
+# -------------------------------------------------------
+Alohomora:
+  name: "Alohomora"
+  description: "Désoriente et affaiblit brièvement la cible."
+  parameters:
+    mana: 10
+    cooldown: 3000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 10
+      - class: PotionEffect
+        add_effects:
+          blindness: 0
+          weakness: 0
+        duration: 2000
+        target: target
+
+  effects:
+    cast:
+      - sound: block.iron_door.open
+        sound_pitch: 1.5
+      - trail: spell
+        trail_step: 0.35
+        particle_offset_x: 0.03
+        particle_offset_y: 0.03
+        particle_offset_z: 0.03
+        fallback_range: 10
+      - particle: spell
+        particle_count: 25
+        particle_offset_x: 0.3
+        particle_offset_y: 0.6
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Arresto_Momentum — Ralentissement
+# -------------------------------------------------------
+Arresto_Momentum:
+  name: "Arresto Momentum"
+  description: "Ralentit drastiquement la cible."
+  parameters:
+    mana: 20
+    cooldown: 8000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 14
+      - class: PotionEffect
+        add_effects:
+          slowness: 5
+        duration: 4000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.elder_guardian.curse
+        sound_pitch: 1.1
+      - trail: end_rod
+        trail_step: 0.4
+        particle_offset_x: 0.03
+        particle_offset_y: 0.03
+        particle_offset_z: 0.03
+        fallback_range: 14
+      - particle: end_rod
+        particle_count: 40
+        particle_offset_x: 0.4
+        particle_offset_y: 0.9
+        particle_offset_z: 0.4
+        particle_target: target
+      - particle: snowflake
+        particle_count: 20
+        particle_offset_x: 0.3
+        particle_offset_y: 0.7
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Bombarda — Explosion rapide
+# -------------------------------------------------------
+Bombarda:
+  name: "Bombarda"
+  description: "Explosion rapide qui inflige des dégâts légers."
+  parameters:
+    mana: 20
+    cooldown: 3000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 14
+      - class: Damage
+        amount: 6
+      - class: PotionEffect
+        add_effects:
+          slowness: 1
+        duration: 1500
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.generic.explode
+        sound_pitch: 1.4
+        sound_volume: 0.8
+      - trail: flame
+        trail_step: 0.3
+        particle_offset_x: 0.04
+        particle_offset_y: 0.04
+        particle_offset_z: 0.04
+        fallback_range: 14
+      - particle: explosion
+        particle_count: 10
+        particle_offset_x: 0.4
+        particle_offset_y: 0.6
+        particle_offset_z: 0.4
+        particle_target: target
+      - particle: flame
+        particle_count: 30
+        particle_offset_x: 0.3
+        particle_offset_y: 0.5
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Bombarda_Maxima — Explosion dévastatrice (même mécanique, plus forte)
+# -------------------------------------------------------
+Bombarda_Maxima:
+  name: "Bombarda Maxima"
+  description: "Explosion dévastatrice à large portée et fort impact."
+  parameters:
+    mana: 45
+    cooldown: 12000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 20
+      - class: Damage
+        amount: 14
+      - class: PotionEffect
+        add_effects:
+          slowness: 2
+        duration: 3000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.generic.explode
+        sound_pitch: 0.6
+        sound_volume: 2.0
+      - trail: flame
+        trail_step: 0.2
+        particle_offset_x: 0.07
+        particle_offset_y: 0.07
+        particle_offset_z: 0.07
+        fallback_range: 20
+      - particle: explosion
+        particle_count: 35
+        particle_offset_x: 0.8
+        particle_offset_y: 1.0
+        particle_offset_z: 0.8
+        particle_target: target
+      - particle: flame
+        particle_count: 60
+        particle_offset_x: 0.6
+        particle_offset_y: 0.9
+        particle_offset_z: 0.6
+        particle_target: target
+      - particle: large_smoke
+        particle_count: 40
+        particle_offset_x: 0.7
+        particle_offset_y: 1.2
+        particle_offset_z: 0.7
+        particle_target: target
+
+# -------------------------------------------------------
+# Expecto_Patronum — Patronus (repousse et blesse les ennemis proches)
+# -------------------------------------------------------
+Expecto_Patronum:
+  name: "Expecto Patronum"
+  description: "Invoque un Patronus qui repousse et blesse les ennemis proches."
+  parameters:
+    mana: 50
+    cooldown: 30000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 6
+      - class: Damage
+        amount: 8
+      - class: PotionEffect
+        add_effects:
+          slowness: 3
+          weakness: 2
+        duration: 4000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.elder_guardian.ambient
+        sound_pitch: 1.4
+        sound_volume: 1.5
+      - particle: end_rod
+        particle_count: 80
+        particle_offset_x: 0.8
+        particle_offset_y: 1.5
+        particle_offset_z: 0.8
+      - particle: totem
+        particle_count: 60
+        particle_offset_x: 0.6
+        particle_offset_y: 1.2
+        particle_offset_z: 0.6
+      - particle: spell
+        particle_count: 40
+        particle_offset_x: 0.5
+        particle_offset_y: 1.0
+        particle_offset_z: 0.5
+        particle_target: target

@@ -719,3 +719,418 @@ Expecto_Patronum:
         particle_offset_y: 1.0
         particle_offset_z: 0.5
         particle_target: target
+
+# -------------------------------------------------------
+# Flambios — Boule de feu offensive
+# -------------------------------------------------------
+Flambios:
+  name: "Flambios"
+  description: "Projette une boule de feu qui brûle et dévore la cible."
+  parameters:
+    mana: 22
+    cooldown: 3500
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 14
+      - class: Damage
+        amount: 7
+      - class: PotionEffect
+        add_effects:
+          wither: 1
+        duration: 2000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.blaze.shoot
+        sound_pitch: 1.0
+        sound_volume: 1.3
+      - trail: flame
+        trail_step: 0.28
+        particle_offset_x: 0.04
+        particle_offset_y: 0.04
+        particle_offset_z: 0.04
+        fallback_range: 14
+      - particle: flame
+        particle_count: 45
+        particle_offset_x: 0.45
+        particle_offset_y: 0.9
+        particle_offset_z: 0.45
+        particle_target: target
+      - particle: smoke
+        particle_count: 20
+        particle_offset_x: 0.3
+        particle_offset_y: 0.6
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Flambios_Maxima — Explosion de feu dévastatrice
+# -------------------------------------------------------
+Flambios_Maxima:
+  name: "Flambios Maxima"
+  description: "Déchaîne une déflagration de feu infernal sur la cible."
+  parameters:
+    mana: 50
+    cooldown: 14000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 18
+      - class: Damage
+        amount: 16
+      - class: PotionEffect
+        add_effects:
+          wither: 2
+          slowness: 1
+        duration: 3500
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.blaze.shoot
+        sound_pitch: 0.7
+        sound_volume: 2.0
+      - sound: entity.generic.explode
+        sound_pitch: 0.8
+        sound_volume: 1.5
+      - trail: flame
+        trail_step: 0.2
+        particle_offset_x: 0.08
+        particle_offset_y: 0.08
+        particle_offset_z: 0.08
+        fallback_range: 18
+      - particle: explosion
+        particle_count: 20
+        particle_offset_x: 0.7
+        particle_offset_y: 0.9
+        particle_offset_z: 0.7
+        particle_target: target
+      - particle: flame
+        particle_count: 70
+        particle_offset_x: 0.65
+        particle_offset_y: 1.1
+        particle_offset_z: 0.65
+        particle_target: target
+      - particle: lava
+        particle_count: 15
+        particle_offset_x: 0.5
+        particle_offset_y: 0.9
+        particle_offset_z: 0.5
+        particle_target: target
+      - particle: large_smoke
+        particle_count: 35
+        particle_offset_x: 0.6
+        particle_offset_y: 1.2
+        particle_offset_z: 0.6
+        particle_target: target
+
+# -------------------------------------------------------
+# Lumos — Lumière magique (sort utilitaire sur soi)
+# -------------------------------------------------------
+Lumos:
+  name: "Lumos"
+  description: "Illumine les ténèbres et révèle ta présence magique."
+  parameters:
+    mana: 8
+    cooldown: 45000
+
+  actions:
+    cast:
+      - class: PotionEffect
+        add_effects:
+          night_vision: 0
+          glowing: 0
+        duration: 20000
+        target: self
+
+  effects:
+    cast:
+      - sound: block.beacon.activate
+        sound_pitch: 1.6
+        sound_volume: 0.9
+      - particle: end_rod
+        particle_count: 50
+        particle_offset_x: 0.4
+        particle_offset_y: 1.0
+        particle_offset_z: 0.4
+      - particle: spell
+        particle_count: 25
+        particle_offset_x: 0.3
+        particle_offset_y: 0.7
+        particle_offset_z: 0.3
+
+# -------------------------------------------------------
+# Obscuro — Bandeau d'aveuglement
+# -------------------------------------------------------
+Obscuro:
+  name: "Obscuro"
+  description: "Plonge la cible dans l'obscurité et la désoriente."
+  parameters:
+    mana: 15
+    cooldown: 6000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 10
+      - class: PotionEffect
+        add_effects:
+          blindness: 0
+          nausea: 0
+        duration: 3500
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.evoker.cast_spell
+        sound_pitch: 0.7
+        sound_volume: 1.0
+      - trail: smoke
+        trail_step: 0.32
+        particle_offset_x: 0.04
+        particle_offset_y: 0.04
+        particle_offset_z: 0.04
+        fallback_range: 10
+      - particle: smoke
+        particle_count: 40
+        particle_offset_x: 0.4
+        particle_offset_y: 0.9
+        particle_offset_z: 0.4
+        particle_target: target
+      - particle: witch
+        particle_count: 20
+        particle_offset_x: 0.3
+        particle_offset_y: 0.7
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Rictusempra — Charme du chatouillement
+# -------------------------------------------------------
+Rictusempra:
+  name: "Rictusempra"
+  description: "Désarçonne la cible d'un fou rire incontrôlable."
+  parameters:
+    mana: 12
+    cooldown: 4000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 12
+      - class: PotionEffect
+        add_effects:
+          nausea: 0
+          weakness: 0
+        duration: 3000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.player.attack.sweep
+        sound_pitch: 1.6
+        sound_volume: 0.9
+      - trail: crit
+        trail_step: 0.35
+        particle_offset_x: 0.03
+        particle_offset_y: 0.03
+        particle_offset_z: 0.03
+        fallback_range: 12
+      - particle: crit
+        particle_count: 30
+        particle_offset_x: 0.4
+        particle_offset_y: 0.8
+        particle_offset_z: 0.4
+        particle_target: target
+      - particle: spell
+        particle_count: 20
+        particle_offset_x: 0.3
+        particle_offset_y: 0.6
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Salvio_Maleficia — Bouclier contre les maléfices (sort sur soi)
+# -------------------------------------------------------
+Salvio_Maleficia:
+  name: "Salvio Maleficia"
+  description: "Érige une barrière magique qui repousse les maléfices."
+  parameters:
+    mana: 30
+    cooldown: 20000
+
+  actions:
+    cast:
+      - class: PotionEffect
+        add_effects:
+          resistance: 1
+          absorption: 0
+        duration: 8000
+        target: self
+
+  effects:
+    cast:
+      - sound: item.shield.block
+        sound_pitch: 0.9
+        sound_volume: 1.2
+      - sound: entity.elder_guardian.ambient
+        sound_pitch: 1.5
+        sound_volume: 0.6
+      - particle: end_rod
+        particle_count: 70
+        particle_offset_x: 0.7
+        particle_offset_y: 1.2
+        particle_offset_z: 0.7
+      - particle: spell
+        particle_count: 45
+        particle_offset_x: 0.5
+        particle_offset_y: 1.0
+        particle_offset_z: 0.5
+
+# -------------------------------------------------------
+# Partis_Temporus — Fente temporelle (sort sur soi)
+# -------------------------------------------------------
+Partis_Temporus:
+  name: "Partis Temporus"
+  description: "Fend l'espace et propulse le lanceur à une vitesse surnaturelle."
+  parameters:
+    mana: 25
+    cooldown: 12000
+
+  actions:
+    cast:
+      - class: PotionEffect
+        add_effects:
+          speed: 2
+          jump_boost: 1
+        duration: 5000
+        target: self
+
+  effects:
+    cast:
+      - sound: entity.enderman.teleport
+        sound_pitch: 1.2
+        sound_volume: 1.0
+      - particle: portal
+        particle_count: 60
+        particle_offset_x: 0.5
+        particle_offset_y: 1.1
+        particle_offset_z: 0.5
+      - particle: end_rod
+        particle_count: 35
+        particle_offset_x: 0.3
+        particle_offset_y: 0.8
+        particle_offset_z: 0.3
+
+# -------------------------------------------------------
+# Imperium — Maléfice impardonnable du contrôle
+# -------------------------------------------------------
+Imperium:
+  name: "Imperium"
+  description: "Soumet la volonté de la cible — l'un des trois maléfices impardonnables."
+  parameters:
+    mana: 55
+    cooldown: 35000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 15
+      - class: PotionEffect
+        add_effects:
+          levitation: 1
+          slowness: 4
+          weakness: 2
+          nausea: 0
+        duration: 5000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.evoker.cast_spell
+        sound_pitch: 0.5
+        sound_volume: 2.0
+      - sound: entity.wither.shoot
+        sound_pitch: 1.3
+        sound_volume: 0.8
+      - trail: witch
+        trail_step: 0.28
+        particle_offset_x: 0.05
+        particle_offset_y: 0.05
+        particle_offset_z: 0.05
+        fallback_range: 15
+      - particle: witch
+        particle_count: 55
+        particle_offset_x: 0.5
+        particle_offset_y: 1.1
+        particle_offset_z: 0.5
+        particle_target: target
+      - particle: portal
+        particle_count: 40
+        particle_offset_x: 0.4
+        particle_offset_y: 0.9
+        particle_offset_z: 0.4
+        particle_target: target
+      - particle: end_rod
+        particle_count: 25
+        particle_offset_x: 0.3
+        particle_offset_y: 0.7
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Doloris — Sort de douleur pure
+# -------------------------------------------------------
+Doloris:
+  name: "Doloris"
+  description: "Inflige une douleur lancinante qui ronge la cible de l'intérieur."
+  parameters:
+    mana: 30
+    cooldown: 10000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 10
+      - class: Damage
+        amount: 4
+      - class: PotionEffect
+        add_effects:
+          wither: 3
+          slowness: 2
+        duration: 4000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.wither.hurt
+        sound_pitch: 0.6
+        sound_volume: 1.8
+      - trail: soul_fire
+        trail_step: 0.25
+        particle_offset_x: 0.05
+        particle_offset_y: 0.05
+        particle_offset_z: 0.05
+        fallback_range: 10
+      - particle: soul_fire
+        particle_count: 40
+        particle_offset_x: 0.45
+        particle_offset_y: 1.0
+        particle_offset_z: 0.45
+        particle_target: target
+      - particle: dragon
+        particle_count: 30
+        particle_offset_x: 0.4
+        particle_offset_y: 0.8
+        particle_offset_z: 0.4
+        particle_target: target
+      - particle: witch
+        particle_count: 20
+        particle_offset_x: 0.3
+        particle_offset_y: 0.6
+        particle_offset_z: 0.3
+        particle_target: target

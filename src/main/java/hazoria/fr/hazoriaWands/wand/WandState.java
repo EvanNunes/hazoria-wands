@@ -22,4 +22,8 @@ public class WandState {
     public void setCooldown(String spellId, long durationMs) {
         cooldownUntilMs.put(spellId, System.currentTimeMillis() + durationMs);
     }
+
+    public long getRemainingCooldownMs(String spellId) {
+        return Math.max(0L, cooldownUntilMs.getOrDefault(spellId, 0L) - System.currentTimeMillis());
+    }
 }

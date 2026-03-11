@@ -1,4 +1,4 @@
-wands1:
+Acromantula:
   name: "&#edab50&lBaguette Acromantula"
   icon: "stick{CustomModelData:10128}"
   lore:
@@ -10,13 +10,256 @@ wands1:
     - "&#edab50Rareté: &f顿"
     - ""
   effect_color: "004400"
-
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
-
   spells:
-    - "stupefix"
-    - "protego"
-    - "expelliarmus"
-    - "incendio"
+    - "Stupefix"
+    - "Protego"
+
+Basilic:
+  name: "&#edab50&lBaguette Basilic"
+  icon: "stick{CustomModelData:10130}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Une baguette sinistre imprégnée"
+    - "&7d'une magie ancienne.."
+    - ""
+    - "&#edab50Rareté: &f顿"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Dragon:
+  name: "&#edab50&lBaguette Dragon"
+  icon: "stick{CustomModelData:10131}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Alimentée par un fragment de"
+    - "&7ventricule de dragon."
+    - ""
+    - "&#edab50Rareté: &f顿"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Phenix:
+  name: "&#edab50&lBaguette Phénix"
+  icon: "stick{CustomModelData:10132}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Une baguette rayonnante née"
+    - "&7de la renaissance et du feu."
+    - ""
+    - "&#edab50Rareté: &f顿"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Thestral:
+  name: "&#edab50&lBaguette Thestral"
+  icon: "stick{CustomModelData:10133}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Une baguette qui résonne avec"
+    - "&7la mort, les ombres et l'invisible."
+    - ""
+    - "&#edab50Rareté: &f顿"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Hippogriffe:
+  name: "&#edab50&lBaguette Hippogriffe"
+  icon: "stick{CustomModelData:10134}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Une baguette noble qui récompense"
+    - "&7la discipline et le respect."
+    - ""
+    - "&#edab50Rareté: &f顿"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Strangulot:
+  name: "&#edab50&lBaguette Strangulot"
+  icon: "stick{CustomModelData:10135}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Conçue dans les marrais de"
+    - "&7Poudlard, elle regorge de mystère."
+    - ""
+    - "&#edab50Rareté: &f顿"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Licorne:
+  name: "&#edab50&lBaguette Licorne"
+  icon: "stick{CustomModelData:10136}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Une baguette pure et élégante."
+    - "&7Sa magie est stable et précise."
+    - ""
+    - "&#edab50Rareté: &f敢"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Mandragore:
+  name: "&#edab50&lBaguette Mandragore"
+  icon: "stick{CustomModelData:10137}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Une baguette chaotique qui vibre"
+    - "&7d'une force vital brute."
+    - ""
+    - "&#edab50Rareté: &f敢"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Detraqueur:
+  name: "&#edab50&lBaguette Détraqueur"
+  icon: "stick{CustomModelData:10138}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Baguette glaciale qui draine"
+    - "&7la chaleur et l'espoir."
+    - ""
+    - "&#edab50Rareté: &f敢"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Sirene:
+  name: "&#edab50&lBaguette Sirène"
+  icon: "stick{CustomModelData:10139}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Baguette fracieuse façonnée"
+    - "&7par les profondeurs marines."
+    - ""
+    - "&#edab50Rareté: &f敢"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Parapluie_Magique:
+  name: "&#edab50&lParapluie Magique"
+  icon: "stick{CustomModelData:10140}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Ce parapluie est tombé dans"
+    - "&7la magie étant plus petit."
+    - ""
+    - "&#edab50Rareté: &f守"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Sceptre_de_Foloeil:
+  name: "&#edab50&lSceptre de Foloeil"
+  icon: "stick{CustomModelData:10141}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Entre de bonnes mains, elle"
+    - "&7devient un sceptre ultime."
+    - ""
+    - "&#edab50Rareté: &f守"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
+
+Patronus:
+  name: "&#edab50&lBaguette Patronus"
+  icon: "stick{CustomModelData:10142}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Cette Baguette a le pouvoir"
+    - "&7d'invoquer un Patronus."
+    - ""
+    - "&#edab50Rareté: &f守"
+    - ""
+  effect_color: "004400"
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+  spells:
+    - "Stupefix"
+    - "Protego"
