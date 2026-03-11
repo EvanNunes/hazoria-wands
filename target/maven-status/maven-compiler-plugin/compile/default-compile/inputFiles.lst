@@ -1,3 +1,4 @@
+C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\command\SortsCommand.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\command\WandsCommand.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\HazoriaWands.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\listener\PlayerSessionListener.java
@@ -5,6 +6,8 @@ C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\lis
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\listener\WandProtectionListener.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\player\PlayerDataService.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\spell\action\impl\DamageAction.java
+C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\spell\action\impl\KnockbackAction.java
+C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\spell\action\impl\OpenDoorsAction.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\spell\action\impl\PotionEffectAction.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\spell\action\impl\RaytraceHitAction.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\spell\action\impl\ShieldAction.java
@@ -19,6 +22,7 @@ C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\spe
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\spell\SpellLoader.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\spell\SpellRegistry.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\ui\ActionBarService.java
+C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\ui\SpellSelectionGui.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\util\Colors.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\wand\WandItemService.java
 C:\Users\evan2\Documents\hazoria-wands\src\main\java\hazoria\fr\hazoriaWands\wand\WandState.java

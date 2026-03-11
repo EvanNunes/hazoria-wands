@@ -1,5 +1,6 @@
 package hazoria.fr.hazoriaWands;
 
+import hazoria.fr.hazoriaWands.command.SortsCommand;
 import hazoria.fr.hazoriaWands.command.WandsCommand;
 import hazoria.fr.hazoriaWands.listener.PlayerSessionListener;
 import hazoria.fr.hazoriaWands.listener.WandListener;
@@ -8,6 +9,7 @@ import hazoria.fr.hazoriaWands.player.PlayerDataService;
 import hazoria.fr.hazoriaWands.spell.SpellLoader;
 import hazoria.fr.hazoriaWands.spell.SpellRegistry;
 import hazoria.fr.hazoriaWands.ui.ActionBarService;
+import hazoria.fr.hazoriaWands.ui.SpellSelectionGui;
 import hazoria.fr.hazoriaWands.wand.WandItemService;
 import hazoria.fr.hazoriaWands.wand.WandStateService;
 import hazoria.fr.hazoriaWands.wand.WandTypeRegistry;
@@ -52,10 +54,16 @@ public final class HazoriaWands extends JavaPlugin {
         getServer().getPluginManager().registerEvents(
                 new PlayerSessionListener(wandStateService, playerDataService), this);
 
+        SpellSelectionGui spellGui = new SpellSelectionGui(spellRegistry, wandItemService, playerDataService);
+        getServer().getPluginManager().registerEvents(spellGui, this);
+
         if (getCommand("wands") != null) {
-            WandsCommand cmd = new WandsCommand(this, wandItemService, wandTypeRegistry, spellRegistry);
+            WandsCommand cmd = new WandsCommand(this, wandItemService, wandTypeRegistry, spellRegistry, playerDataService);
             getCommand("wands").setExecutor(cmd);
             getCommand("wands").setTabCompleter(cmd);
+        }
+        if (getCommand("sorts") != null) {
+            getCommand("sorts").setExecutor(new SortsCommand(wandItemService, spellGui));
         }
 
         getLogger().info("HazoriaWands enabled.");

@@ -5,6 +5,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class PlayerDataService {
@@ -20,7 +22,9 @@ public class PlayerDataService {
 
     public void save(UUID uuid, int mana) {
         File file = new File(dataFolder, uuid.toString() + ".yml");
-        YamlConfiguration config = new YamlConfiguration();
+        YamlConfiguration config = file.exists()
+                ? YamlConfiguration.loadConfiguration(file)
+                : new YamlConfiguration();
         config.set("mana", mana);
         try {
             config.save(file);
@@ -32,7 +36,25 @@ public class PlayerDataService {
     public int loadMana(UUID uuid, int defaultMana) {
         File file = new File(dataFolder, uuid.toString() + ".yml");
         if (!file.exists()) return defaultMana;
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        return config.getInt("mana", defaultMana);
+        return YamlConfiguration.loadConfiguration(file).getInt("mana", defaultMana);
+    }
+
+    public void saveUnlockedSpells(UUID uuid, List<String> spells) {
+        File file = new File(dataFolder, uuid.toString() + ".yml");
+        YamlConfiguration config = file.exists()
+                ? YamlConfiguration.loadConfiguration(file)
+                : new YamlConfiguration();
+        config.set("unlocked_spells", spells);
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            plugin.getLogger().warning("Failed to save unlocked spells for " + uuid + ": " + e.getMessage());
+        }
+    }
+
+    public List<String> loadUnlockedSpells(UUID uuid) {
+        File file = new File(dataFolder, uuid.toString() + ".yml");
+        if (!file.exists()) return new ArrayList<>();
+        return new ArrayList<>(YamlConfiguration.loadConfiguration(file).getStringList("unlocked_spells"));
     }
 }

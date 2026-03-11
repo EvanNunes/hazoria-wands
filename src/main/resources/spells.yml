@@ -88,7 +88,7 @@ AvadaKedavra:
       - class: RaytraceHit
         range: 20
       - class: Damage
-        amount: 18
+        amount: 30
       - class: PotionEffect
         add_effects:
           wither: 1
@@ -501,38 +501,25 @@ Crucio:
 # -------------------------------------------------------
 Alohomora:
   name: "Alohomora"
-  description: "Désoriente et affaiblit brièvement la cible."
+  description: "Déverrouille magiquement portes en bois et en fer."
   parameters:
     mana: 10
     cooldown: 3000
 
   actions:
     cast:
-      - class: RaytraceHit
-        range: 10
-      - class: PotionEffect
-        add_effects:
-          blindness: 0
-          weakness: 0
-        duration: 2000
-        target: target
+      - class: OpenDoors
+        range: 5
 
   effects:
     cast:
       - sound: block.iron_door.open
         sound_pitch: 1.5
-      - trail: spell
-        trail_step: 0.35
-        particle_offset_x: 0.03
-        particle_offset_y: 0.03
-        particle_offset_z: 0.03
-        fallback_range: 10
       - particle: spell
-        particle_count: 25
-        particle_offset_x: 0.3
-        particle_offset_y: 0.6
-        particle_offset_z: 0.3
-        particle_target: target
+        particle_count: 20
+        particle_offset_x: 0.2
+        particle_offset_y: 0.4
+        particle_offset_z: 0.2
 
 # -------------------------------------------------------
 # Arresto_Momentum — Ralentissement
@@ -638,7 +625,7 @@ Bombarda_Maxima:
       - class: RaytraceHit
         range: 20
       - class: Damage
-        amount: 14
+        amount: 30
       - class: PotionEffect
         add_effects:
           slowness: 2
@@ -688,9 +675,11 @@ Expecto_Patronum:
   actions:
     cast:
       - class: RaytraceHit
-        range: 6
+        range: 14
       - class: Damage
         amount: 8
+      - class: Knockback
+        strength: 2.0
       - class: PotionEffect
         add_effects:
           slowness: 3
@@ -703,6 +692,12 @@ Expecto_Patronum:
       - sound: entity.elder_guardian.ambient
         sound_pitch: 1.4
         sound_volume: 1.5
+      - trail: end_rod
+        trail_step: 0.3
+        particle_offset_x: 0.03
+        particle_offset_y: 0.03
+        particle_offset_z: 0.03
+        fallback_range: 14
       - particle: end_rod
         particle_count: 80
         particle_offset_x: 0.8
@@ -713,11 +708,17 @@ Expecto_Patronum:
         particle_offset_x: 0.6
         particle_offset_y: 1.2
         particle_offset_z: 0.6
-      - particle: spell
-        particle_count: 40
+      - particle: end_rod
+        particle_count: 50
         particle_offset_x: 0.5
         particle_offset_y: 1.0
         particle_offset_z: 0.5
+        particle_target: target
+      - particle: totem
+        particle_count: 30
+        particle_offset_x: 0.4
+        particle_offset_y: 0.8
+        particle_offset_z: 0.4
         particle_target: target
 
 # -------------------------------------------------------
@@ -1097,7 +1098,7 @@ Doloris:
       - class: RaytraceHit
         range: 10
       - class: Damage
-        amount: 4
+        amount: 25
       - class: PotionEffect
         add_effects:
           wither: 3

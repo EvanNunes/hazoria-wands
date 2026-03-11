@@ -1,6 +1,7 @@
 package hazoria.fr.hazoriaWands.command;
 
 import hazoria.fr.hazoriaWands.HazoriaWands;
+import hazoria.fr.hazoriaWands.player.PlayerDataService;
 import hazoria.fr.hazoriaWands.spell.SpellRegistry;
 import hazoria.fr.hazoriaWands.util.Colors;
 import hazoria.fr.hazoriaWands.wand.WandItemService;
@@ -23,14 +24,17 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
     private final WandItemService wandItemService;
     private final WandTypeRegistry wandTypeRegistry;
     private final SpellRegistry spellRegistry;
+    private final PlayerDataService playerDataService;
     private YamlConfiguration messages;
 
     public WandsCommand(JavaPlugin plugin, WandItemService wandItemService,
-                        WandTypeRegistry wandTypeRegistry, SpellRegistry spellRegistry) {
-        this.plugin           = plugin;
-        this.wandItemService  = wandItemService;
-        this.wandTypeRegistry = wandTypeRegistry;
-        this.spellRegistry    = spellRegistry;
+                        WandTypeRegistry wandTypeRegistry, SpellRegistry spellRegistry,
+                        PlayerDataService playerDataService) {
+        this.plugin             = plugin;
+        this.wandItemService    = wandItemService;
+        this.wandTypeRegistry   = wandTypeRegistry;
+        this.spellRegistry      = spellRegistry;
+        this.playerDataService  = playerDataService;
         loadMessages();
     }
 
@@ -54,6 +58,7 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
             case "give"        -> handleGive(sender, args);
             case "addspell"    -> handleAddSpell(sender, args);
             case "removespell" -> handleRemoveSpell(sender, args);
+            case "unlock"      -> handleUnlock(sender, args);
             case "reload"      -> handleReload(sender);
             default            -> sendHelp(sender);
         }
@@ -87,6 +92,15 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
         }
 
         target.getInventory().addItem(wandItemService.createWand(target, type));
+
+        // Auto-débloque les sorts par défaut de la baguette
+        List<String> unlocked = playerDataService.loadUnlockedSpells(target.getUniqueId());
+        for (String spellId : type.defaultSpells) {
+            String id = spellId.toLowerCase();
+            if (!unlocked.contains(id)) unlocked.add(id);
+        }
+        playerDataService.saveUnlockedSpells(target.getUniqueId(), unlocked);
+
         sender.sendMessage(Colors.color(messages.getString("gave_wand").replace("%player%", target.getName())));
     }
 
@@ -124,6 +138,13 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
         wandItemService.setSpells(meta, spells);
         wand.setItemMeta(meta);
 
+        // Auto-débloque le sort pour le joueur
+        List<String> unlocked = playerDataService.loadUnlockedSpells(target.getUniqueId());
+        if (!unlocked.contains(spellId)) {
+            unlocked.add(spellId);
+            playerDataService.saveUnlockedSpells(target.getUniqueId(), unlocked);
+        }
+
         sender.sendMessage(Colors.color("&aSort &e" + spellId + "&a ajouté à &e" + target.getName() + "&a."));
     }
 
@@ -158,6 +179,32 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Colors.color("&aSort &e" + spellId + "&a retiré de &e" + target.getName() + "&a."));
     }
 
+    private void handleUnlock(CommandSender sender, String[] args) {
+        if (args.length < 3) {
+            sender.sendMessage(Colors.color("&cUsage: /wands unlock <joueur> <sort>"));
+            return;
+        }
+        Player target = Bukkit.getPlayerExact(args[1]);
+        if (target == null) {
+            sender.sendMessage(Colors.color(messages.getString("player_not_found")));
+            return;
+        }
+        String spellId = args[2].toLowerCase();
+        if (spellRegistry.get(spellId) == null) {
+            sender.sendMessage(Colors.color("&cSort inconnu: &e" + spellId));
+            return;
+        }
+        List<String> unlocked = playerDataService.loadUnlockedSpells(target.getUniqueId());
+        if (unlocked.contains(spellId)) {
+            sender.sendMessage(Colors.color("&c" + target.getName() + " possède déjà ce sort débloqué."));
+            return;
+        }
+        unlocked.add(spellId);
+        playerDataService.saveUnlockedSpells(target.getUniqueId(), unlocked);
+        sender.sendMessage(Colors.color("&aSort &e" + spellId + "&a débloqué pour &e" + target.getName() + "&a."));
+        target.sendMessage(Colors.color("&6✦ &eNouvel sort débloqué : &f" + spellId));
+    }
+
     private void handleReload(CommandSender sender) {
         ((HazoriaWands) plugin).reload();
         loadMessages();
@@ -177,6 +224,7 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Colors.color("&7/wands give <joueur> [type]"));
         sender.sendMessage(Colors.color("&7/wands addspell <joueur> <sort>"));
         sender.sendMessage(Colors.color("&7/wands removespell <joueur> <sort>"));
+        sender.sendMessage(Colors.color("&7/wands unlock <joueur> <sort>"));
         sender.sendMessage(Colors.color("&7/wands reload"));
     }
 
@@ -186,11 +234,11 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
         if (!sender.hasPermission("hazoriawands.admin")) return out;
 
         if (args.length == 1) {
-            return filterStartsWith(List.of("give", "addspell", "removespell", "reload"), args[0]);
+            return filterStartsWith(List.of("give", "addspell", "removespell", "unlock", "reload"), args[0]);
         }
         if (args.length == 2) {
             switch (args[0].toLowerCase()) {
-                case "give", "addspell", "removespell" -> {
+                case "give", "addspell", "removespell", "unlock" -> {
                     for (Player p : Bukkit.getOnlinePlayers()) out.add(p.getName());
                     return filterStartsWith(out, args[1]);
                 }
@@ -202,7 +250,7 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
                     out.addAll(wandTypeRegistry.getIds());
                     return filterStartsWith(out, args[2]);
                 }
-                case "addspell", "removespell" -> {
+                case "addspell", "removespell", "unlock" -> {
                     out.addAll(spellRegistry.getIds());
                     return filterStartsWith(out, args[2]);
                 }

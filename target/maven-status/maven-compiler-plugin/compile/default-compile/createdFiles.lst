@@ -4,9 +4,11 @@ hazoria\fr\hazoriaWands\wand\WandItemService.class
 hazoria\fr\hazoriaWands\HazoriaWands.class
 hazoria\fr\hazoriaWands\spell\SpellRegistry.class
 hazoria\fr\hazoriaWands\spell\action\impl\DamageAction.class
+hazoria\fr\hazoriaWands\spell\action\impl\OpenDoorsAction.class
 hazoria\fr\hazoriaWands\spell\action\impl\RaytraceHitAction.class
 hazoria\fr\hazoriaWands\util\Colors.class
 hazoria\fr\hazoriaWands\spell\ConfigSpell.class
+hazoria\fr\hazoriaWands\spell\action\impl\KnockbackAction.class
 hazoria\fr\hazoriaWands\spell\action\impl\PotionEffectAction.class
 hazoria\fr\hazoriaWands\command\WandsCommand.class
 hazoria\fr\hazoriaWands\wand\WandState.class
@@ -23,6 +25,8 @@ hazoria\fr\hazoriaWands\listener\WandListener$1.class
 hazoria\fr\hazoriaWands\listener\WandProtectionListener.class
 hazoria\fr\hazoriaWands\spell\effect\impl\ParticleEffect.class
 hazoria\fr\hazoriaWands\wand\WandTypeRegistry.class
+hazoria\fr\hazoriaWands\command\SortsCommand.class
+hazoria\fr\hazoriaWands\ui\SpellSelectionGui.class
 hazoria\fr\hazoriaWands\spell\effect\SpellEffect.class
 hazoria\fr\hazoriaWands\spell\Spell.class
 hazoria\fr\hazoriaWands\spell\effect\impl\TrailEffect.class

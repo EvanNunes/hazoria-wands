@@ -8,6 +8,9 @@ commands:
   wands:
     description: Manage wands
     usage: /wands
+  sorts:
+    description: Gérer les sorts équipés sur votre baguette
+    usage: /sorts
 
 permissions:
   hazoriawands.admin:
