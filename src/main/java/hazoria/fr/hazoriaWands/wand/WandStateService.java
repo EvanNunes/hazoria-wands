@@ -1,5 +1,6 @@
 package hazoria.fr.hazoriaWands.wand;
 
+import hazoria.fr.hazoriaWands.player.PlayerDataService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -14,17 +15,24 @@ public class WandStateService {
 
     private final JavaPlugin plugin;
     private final WandItemService wandItemService;
+    private final PlayerDataService playerDataService;
     private final Map<UUID, WandState> states = new ConcurrentHashMap<>();
     private BukkitTask regenTask;
 
-    public WandStateService(JavaPlugin plugin, WandItemService wandItemService) {
+    public WandStateService(JavaPlugin plugin, WandItemService wandItemService,
+                             PlayerDataService playerDataService) {
         this.plugin = plugin;
         this.wandItemService = wandItemService;
+        this.playerDataService = playerDataService;
     }
 
     public WandState getOrCreate(UUID uuid) {
-        int max = plugin.getConfig().getInt("mana.max", 100);
-        return states.computeIfAbsent(uuid, u -> new WandState(max));
+        if (states.containsKey(uuid)) return states.get(uuid);
+        int max  = plugin.getConfig().getInt("mana.max", 100);
+        int mana = playerDataService.loadMana(uuid, max);
+        WandState state = new WandState(Math.min(mana, max));
+        states.put(uuid, state);
+        return state;
     }
 
     public int getMana(UUID uuid) {
@@ -42,7 +50,7 @@ public class WandStateService {
 
     public void startManaRegenTask() {
         int regen = plugin.getConfig().getInt("mana.regen_per_second", 5);
-        int max = plugin.getConfig().getInt("mana.max", 100);
+        int max   = plugin.getConfig().getInt("mana.max", 100);
 
         regenTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -56,8 +64,15 @@ public class WandStateService {
         }, 20L, 20L);
     }
 
+    public void saveAll() {
+        for (Map.Entry<UUID, WandState> entry : states.entrySet()) {
+            playerDataService.save(entry.getKey(), entry.getValue().getMana());
+        }
+    }
+
     public void shutdown() {
         if (regenTask != null) regenTask.cancel();
+        saveAll();
         states.clear();
     }
 }

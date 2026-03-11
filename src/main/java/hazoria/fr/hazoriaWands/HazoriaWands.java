@@ -1,13 +1,16 @@
 package hazoria.fr.hazoriaWands;
 
 import hazoria.fr.hazoriaWands.command.WandsCommand;
+import hazoria.fr.hazoriaWands.listener.PlayerSessionListener;
 import hazoria.fr.hazoriaWands.listener.WandListener;
+import hazoria.fr.hazoriaWands.listener.WandProtectionListener;
+import hazoria.fr.hazoriaWands.player.PlayerDataService;
+import hazoria.fr.hazoriaWands.spell.SpellLoader;
 import hazoria.fr.hazoriaWands.spell.SpellRegistry;
-import hazoria.fr.hazoriaWands.spell.impl.ProtegoSpell;
-import hazoria.fr.hazoriaWands.spell.impl.StupefixSpell;
 import hazoria.fr.hazoriaWands.ui.ActionBarService;
 import hazoria.fr.hazoriaWands.wand.WandItemService;
 import hazoria.fr.hazoriaWands.wand.WandStateService;
+import hazoria.fr.hazoriaWands.wand.WandTypeRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -17,46 +20,63 @@ public final class HazoriaWands extends JavaPlugin {
     private WandItemService wandItemService;
     private WandStateService wandStateService;
     private SpellRegistry spellRegistry;
+    private WandTypeRegistry wandTypeRegistry;
+    private PlayerDataService playerDataService;
     private ActionBarService actionBarService;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        saveMessagesIfMissing();
+        saveResourceIfMissing("messages.yml");
+        saveResourceIfMissing("spells.yml");
+        saveResourceIfMissing("wands.yml");
 
-        this.wandItemService = new WandItemService(this);
-        this.wandStateService = new WandStateService(this, wandItemService);
+        this.wandTypeRegistry = new WandTypeRegistry(this);
+        wandTypeRegistry.load();
 
         this.spellRegistry = new SpellRegistry();
-        spellRegistry.register(new StupefixSpell());
-        spellRegistry.register(new ProtegoSpell(this));
+        new SpellLoader(this).load().forEach(spellRegistry::register);
 
-        getServer().getPluginManager().registerEvents(
-                new WandListener(this, wandItemService, wandStateService, spellRegistry), this
-        );
-
-        if (getCommand("wands") != null) {
-            WandsCommand wandsCommand = new WandsCommand(this, wandItemService);
-            getCommand("wands").setExecutor(wandsCommand);
-            getCommand("wands").setTabCompleter(wandsCommand);
-        }
-
+        this.wandItemService  = new WandItemService(this);
+        this.playerDataService = new PlayerDataService(this);
+        this.wandStateService = new WandStateService(this, wandItemService, playerDataService);
         wandStateService.startManaRegenTask();
 
         this.actionBarService = new ActionBarService(this, wandItemService, wandStateService);
         actionBarService.start();
 
-        getLogger().info("HazoriaWands enabled (Spigot).");
+        getServer().getPluginManager().registerEvents(
+                new WandListener(this, wandItemService, wandStateService, spellRegistry), this);
+        getServer().getPluginManager().registerEvents(
+                new WandProtectionListener(wandItemService), this);
+        getServer().getPluginManager().registerEvents(
+                new PlayerSessionListener(wandStateService, playerDataService), this);
+
+        if (getCommand("wands") != null) {
+            WandsCommand cmd = new WandsCommand(this, wandItemService, wandTypeRegistry, spellRegistry);
+            getCommand("wands").setExecutor(cmd);
+            getCommand("wands").setTabCompleter(cmd);
+        }
+
+        getLogger().info("HazoriaWands enabled.");
     }
 
     @Override
     public void onDisable() {
         if (actionBarService != null) actionBarService.shutdown();
-        if (wandStateService != null) wandStateService.shutdown();
+        if (wandStateService  != null) wandStateService.shutdown();
     }
 
-    private void saveMessagesIfMissing() {
-        File file = new File(getDataFolder(), "messages.yml");
-        if (!file.exists()) saveResource("messages.yml", false);
+    public void reload() {
+        reloadConfig();
+        wandTypeRegistry.load();
+        spellRegistry.clear();
+        new SpellLoader(this).load().forEach(spellRegistry::register);
+        getLogger().info("HazoriaWands config reloaded.");
+    }
+
+    private void saveResourceIfMissing(String resourceName) {
+        File file = new File(getDataFolder(), resourceName);
+        if (!file.exists()) saveResource(resourceName, false);
     }
 }

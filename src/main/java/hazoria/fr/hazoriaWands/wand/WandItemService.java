@@ -23,29 +23,42 @@ public class WandItemService {
     private final NamespacedKey KEY_OWNER;
     private final NamespacedKey KEY_SPELLS;
     private final NamespacedKey KEY_SELECTED;
+    private final NamespacedKey KEY_WAND_TYPE;
 
     public WandItemService(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.KEY_WAND = new NamespacedKey(plugin, "wand");
-        this.KEY_OWNER = new NamespacedKey(plugin, "owner");
-        this.KEY_SPELLS = new NamespacedKey(plugin, "spells");
-        this.KEY_SELECTED = new NamespacedKey(plugin, "selected");
+        this.KEY_WAND      = new NamespacedKey(plugin, "wand");
+        this.KEY_OWNER     = new NamespacedKey(plugin, "owner");
+        this.KEY_SPELLS    = new NamespacedKey(plugin, "spells");
+        this.KEY_SELECTED  = new NamespacedKey(plugin, "selected");
+        this.KEY_WAND_TYPE = new NamespacedKey(plugin, "wand_type");
     }
 
-    public ItemStack createWand(Player owner) {
-        Material mat = Material.valueOf(plugin.getConfig().getString("wand.material", "STICK"));
-        ItemStack item = new ItemStack(mat);
+    public ItemStack createWand(Player owner, WandType type) {
+        Material mat;
+        try {
+            mat = Material.valueOf(type.material.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            plugin.getLogger().warning("Unknown material '" + type.material + "', defaulting to STICK");
+            mat = Material.STICK;
+        }
 
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(Colors.color(plugin.getConfig().getString("wand.name", "&bBaguette Magique")));
-        meta.setCustomModelData(plugin.getConfig().getInt("wand.custom_model_data", 1001));
+        ItemStack item = new ItemStack(mat);
+        ItemMeta meta  = item.getItemMeta();
+
+        meta.setDisplayName(Colors.color(type.displayName));
+        meta.setCustomModelData(type.customModelData);
+
+        List<String> coloredLore = new ArrayList<>();
+        for (String line : type.lore) coloredLore.add(Colors.color(line));
+        meta.setLore(coloredLore);
 
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        pdc.set(KEY_WAND, PersistentDataType.BYTE, (byte) 1);
-        pdc.set(KEY_OWNER, PersistentDataType.STRING, owner.getUniqueId().toString());
+        pdc.set(KEY_WAND,      PersistentDataType.BYTE,   (byte) 1);
+        pdc.set(KEY_OWNER,     PersistentDataType.STRING, owner.getUniqueId().toString());
+        pdc.set(KEY_WAND_TYPE, PersistentDataType.STRING, type.id);
 
-        List<String> defaults = plugin.getConfig().getStringList("spells.default_list");
-        setSpells(meta, defaults);
+        setSpells(meta, type.defaultSpells);
         setSelectedIndex(meta, 0);
 
         item.setItemMeta(meta);

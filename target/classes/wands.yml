@@ -1,0 +1,22 @@
+wands1:
+  name: "&#edab50&lBaguette Acromantula"
+  icon: "stick{CustomModelData:10128}"
+  lore:
+    - ""
+    - "&#edab50Informations :"
+    - "&7Forgée à partir de bois sombre"
+    - "&7imprégné d'essence de soie d'araignée."
+    - ""
+    - "&#edab50Rareté: &f顿"
+    - ""
+  effect_color: "004400"
+
+  mana_max: 100
+  mana_start: 100
+  mana_regeneration: 5
+
+  spells:
+    - "stupefix"
+    - "protego"
+    - "expelliarmus"
+    - "incendio"

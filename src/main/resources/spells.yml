@@ -1,0 +1,721 @@
+# ============================================================
+#  HAZORIA WANDS — Sorts
+#  Actions  : RaytraceHit, Damage, PotionEffect, Shield
+#  Effets   : particle, sound, trail
+#  particle_target : caster (défaut) | target
+#  trail    : même noms de particules que particle
+#  trail_step      : espacement entre les points (défaut 0.4)
+#  fallback_range  : distance si raté (défaut 12)
+# ============================================================
+
+# -------------------------------------------------------
+# Protego — Bouclier magique
+# -------------------------------------------------------
+Protego:
+  name: "Protego"
+  description: "Crée un bouclier qui réduit les dégâts."
+  parameters:
+    mana: 20
+    cooldown: 7000
+
+  actions:
+    cast:
+      - class: Shield
+        duration_ms: 3000
+        damage_reduction: 0.6
+
+  effects:
+    cast:
+      - sound: item.shield.block
+        sound_pitch: 1.3
+      - particle: spell
+        particle_count: 30
+        particle_offset_x: 0.5
+        particle_offset_y: 1.0
+        particle_offset_z: 0.5
+
+# -------------------------------------------------------
+# Stupefix — Assommoir
+# -------------------------------------------------------
+Stupefix:
+  name: "Stupefix"
+  description: "Ralentit et blesse la cible."
+  parameters:
+    mana: 15
+    cooldown: 1500
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 12
+      - class: Damage
+        amount: 4
+      - class: PotionEffect
+        add_effects:
+          slowness: 1
+        duration: 3000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.player.attack.weak
+        sound_pitch: 0.9
+      - trail: smoke
+        trail_step: 0.35
+        particle_offset_x: 0.04
+        particle_offset_y: 0.04
+        particle_offset_z: 0.04
+        fallback_range: 12
+      - particle: smoke
+        particle_count: 15
+        particle_offset_x: 0.3
+        particle_offset_y: 0.3
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# AvadaKedavra — Malédiction de mort
+# -------------------------------------------------------
+AvadaKedavra:
+  name: "Avada Kedavra"
+  description: "Inflige des dégâts massifs et affaiblit la cible."
+  parameters:
+    mana: 60
+    cooldown: 30000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 20
+      - class: Damage
+        amount: 18
+      - class: PotionEffect
+        add_effects:
+          wither: 1
+        duration: 3000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.wither.shoot
+        sound_pitch: 0.7
+        sound_volume: 1.5
+      - trail: dragon
+        trail_step: 0.3
+        particle_offset_x: 0.05
+        particle_offset_y: 0.05
+        particle_offset_z: 0.05
+        fallback_range: 20
+      - particle: dragon
+        particle_count: 60
+        particle_offset_x: 0.6
+        particle_offset_y: 1.0
+        particle_offset_z: 0.6
+        particle_target: target
+      - particle: portal
+        particle_count: 40
+        particle_offset_x: 0.4
+        particle_offset_y: 0.5
+        particle_offset_z: 0.4
+        particle_target: target
+
+# -------------------------------------------------------
+# Incendio — Jet de flammes
+# -------------------------------------------------------
+Incendio:
+  name: "Incendio"
+  description: "Brûle la cible de l'intérieur."
+  parameters:
+    mana: 25
+    cooldown: 4000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 15
+      - class: Damage
+        amount: 6
+      - class: PotionEffect
+        add_effects:
+          wither: 0
+        duration: 2500
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.blaze.shoot
+        sound_pitch: 1.3
+        sound_volume: 1.2
+      - trail: flame
+        trail_step: 0.25
+        particle_offset_x: 0.03
+        particle_offset_y: 0.03
+        particle_offset_z: 0.03
+        fallback_range: 15
+      - particle: flame
+        particle_count: 50
+        particle_offset_x: 0.5
+        particle_offset_y: 1.0
+        particle_offset_z: 0.5
+        particle_target: target
+      - particle: lava
+        particle_count: 8
+        particle_offset_x: 0.3
+        particle_offset_y: 0.8
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Expelliarmus — Désarmement
+# -------------------------------------------------------
+Expelliarmus:
+  name: "Expelliarmus"
+  description: "Affaiblit et ralentit la cible."
+  parameters:
+    mana: 20
+    cooldown: 5000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 12
+      - class: Damage
+        amount: 3
+      - class: PotionEffect
+        add_effects:
+          weakness: 1
+          slowness: 1
+        duration: 5000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.player.attack.sweep
+        sound_pitch: 1.4
+      - trail: crit
+        trail_step: 0.3
+        particle_offset_x: 0.04
+        particle_offset_y: 0.04
+        particle_offset_z: 0.04
+        fallback_range: 12
+      - particle: crit
+        particle_count: 35
+        particle_offset_x: 0.4
+        particle_offset_y: 0.8
+        particle_offset_z: 0.4
+        particle_target: target
+      - particle: spell
+        particle_count: 20
+        particle_offset_x: 0.3
+        particle_offset_y: 0.5
+        particle_offset_z: 0.3
+
+# -------------------------------------------------------
+# PetrificusTotalus — Corps-Lié
+# -------------------------------------------------------
+PetrificusTotalus:
+  name: "Petrificus Totalus"
+  description: "Pétrifies totalement la cible."
+  parameters:
+    mana: 30
+    cooldown: 12000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 12
+      - class: PotionEffect
+        add_effects:
+          slowness: 10
+          blindness: 0
+        duration: 4000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.evoker.cast_spell
+        sound_pitch: 1.2
+      - trail: end_rod
+        trail_step: 0.3
+        particle_offset_x: 0.02
+        particle_offset_y: 0.02
+        particle_offset_z: 0.02
+        fallback_range: 12
+      - particle: end_rod
+        particle_count: 50
+        particle_offset_x: 0.5
+        particle_offset_y: 1.0
+        particle_offset_z: 0.5
+        particle_target: target
+
+# -------------------------------------------------------
+# WingardiumLeviosa — Lévitation
+# -------------------------------------------------------
+WingardiumLeviosa:
+  name: "Wingardium Leviosa"
+  description: "Fait léviter la cible dans les airs."
+  parameters:
+    mana: 25
+    cooldown: 10000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 12
+      - class: PotionEffect
+        add_effects:
+          levitation: 1
+        duration: 3000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.enderman.teleport
+        sound_pitch: 0.8
+      - trail: spell
+        trail_step: 0.35
+        particle_offset_x: 0.03
+        particle_offset_y: 0.03
+        particle_offset_z: 0.03
+        fallback_range: 12
+      - particle: end_rod
+        particle_count: 30
+        particle_offset_x: 0.4
+        particle_offset_y: 0.8
+        particle_offset_z: 0.4
+        particle_target: target
+
+# -------------------------------------------------------
+# Reparo — Soin (pas de trainer, sort sur soi)
+# -------------------------------------------------------
+Reparo:
+  name: "Reparo"
+  description: "Se soigne et gagne une absorption."
+  parameters:
+    mana: 35
+    cooldown: 15000
+
+  actions:
+    cast:
+      - class: PotionEffect
+        add_effects:
+          regeneration: 2
+          absorption: 0
+        duration: 5000
+        target: self
+
+  effects:
+    cast:
+      - sound: entity.player.levelup
+        sound_pitch: 1.2
+      - particle: heart
+        particle_count: 20
+        particle_offset_x: 0.5
+        particle_offset_y: 0.8
+        particle_offset_z: 0.5
+      - particle: totem
+        particle_count: 40
+        particle_offset_x: 0.4
+        particle_offset_y: 1.0
+        particle_offset_z: 0.4
+
+# -------------------------------------------------------
+# Sectumsempra — Balafre
+# -------------------------------------------------------
+Sectumsempra:
+  name: "Sectumsempra"
+  description: "Inflige des dégâts brutaux et empoisonne."
+  parameters:
+    mana: 35
+    cooldown: 8000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 8
+      - class: Damage
+        amount: 10
+      - class: PotionEffect
+        add_effects:
+          wither: 1
+        duration: 3000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.player.attack.crit
+        sound_pitch: 0.8
+        sound_volume: 1.5
+      - trail: crit
+        trail_step: 0.2
+        particle_offset_x: 0.06
+        particle_offset_y: 0.06
+        particle_offset_z: 0.06
+        fallback_range: 8
+      - particle: crit
+        particle_count: 80
+        particle_offset_x: 0.5
+        particle_offset_y: 1.0
+        particle_offset_z: 0.5
+        particle_target: target
+      - particle: large_smoke
+        particle_count: 20
+        particle_offset_x: 0.4
+        particle_offset_y: 0.8
+        particle_offset_z: 0.4
+        particle_target: target
+
+# -------------------------------------------------------
+# LumosMaxima — Illumination (pas de trainer, sort sur soi)
+# -------------------------------------------------------
+LumosMaxima:
+  name: "Lumos Maxima"
+  description: "Vision nocturne et vitesse pendant 30 secondes."
+  parameters:
+    mana: 15
+    cooldown: 65000
+
+  actions:
+    cast:
+      - class: PotionEffect
+        add_effects:
+          night_vision: 0
+          speed: 1
+        duration: 30000
+        target: self
+
+  effects:
+    cast:
+      - sound: block.beacon.activate
+        sound_pitch: 1.3
+      - particle: end_rod
+        particle_count: 60
+        particle_offset_x: 0.6
+        particle_offset_y: 1.2
+        particle_offset_z: 0.6
+      - particle: spell
+        particle_count: 30
+        particle_offset_x: 0.4
+        particle_offset_y: 0.8
+        particle_offset_z: 0.4
+
+# -------------------------------------------------------
+# Confundo — Confusion
+# -------------------------------------------------------
+Confundo:
+  name: "Confundo"
+  description: "Rend la cible confuse et lente."
+  parameters:
+    mana: 20
+    cooldown: 10000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 10
+      - class: PotionEffect
+        add_effects:
+          nausea: 0
+          slowness: 1
+        duration: 5000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.evoker.cast_spell
+        sound_pitch: 0.9
+      - trail: witch
+        trail_step: 0.4
+        particle_offset_x: 0.05
+        particle_offset_y: 0.05
+        particle_offset_z: 0.05
+        fallback_range: 10
+      - particle: witch
+        particle_count: 40
+        particle_offset_x: 0.5
+        particle_offset_y: 1.0
+        particle_offset_z: 0.5
+        particle_target: target
+      - particle: portal
+        particle_count: 25
+        particle_offset_x: 0.3
+        particle_offset_y: 0.5
+        particle_offset_z: 0.3
+
+# -------------------------------------------------------
+# Crucio — Tourment
+# -------------------------------------------------------
+Crucio:
+  name: "Crucio"
+  description: "Inflige douleur continue, affaiblissement et lenteur."
+  parameters:
+    mana: 40
+    cooldown: 20000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 10
+      - class: Damage
+        amount: 5
+      - class: PotionEffect
+        add_effects:
+          wither: 2
+          slowness: 3
+        duration: 4000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.wither.hurt
+        sound_pitch: 0.75
+        sound_volume: 1.5
+      - trail: soul_fire
+        trail_step: 0.3
+        particle_offset_x: 0.04
+        particle_offset_y: 0.04
+        particle_offset_z: 0.04
+        fallback_range: 10
+      - particle: dragon
+        particle_count: 50
+        particle_offset_x: 0.5
+        particle_offset_y: 1.0
+        particle_offset_z: 0.5
+        particle_target: target
+      - particle: witch
+        particle_count: 30
+        particle_offset_x: 0.4
+        particle_offset_y: 0.8
+        particle_offset_z: 0.4
+        particle_target: target
+      - particle: soul_fire
+        particle_count: 15
+        particle_offset_x: 0.3
+        particle_offset_y: 0.6
+        particle_offset_z: 0.3
+        particle_target: target
+
+
+# -------------------------------------------------------
+# Alohomora — Déverrouillage (sort utilitaire offensif)
+# -------------------------------------------------------
+Alohomora:
+  name: "Alohomora"
+  description: "Désoriente et affaiblit brièvement la cible."
+  parameters:
+    mana: 10
+    cooldown: 3000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 10
+      - class: PotionEffect
+        add_effects:
+          blindness: 0
+          weakness: 0
+        duration: 2000
+        target: target
+
+  effects:
+    cast:
+      - sound: block.iron_door.open
+        sound_pitch: 1.5
+      - trail: spell
+        trail_step: 0.35
+        particle_offset_x: 0.03
+        particle_offset_y: 0.03
+        particle_offset_z: 0.03
+        fallback_range: 10
+      - particle: spell
+        particle_count: 25
+        particle_offset_x: 0.3
+        particle_offset_y: 0.6
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Arresto_Momentum — Ralentissement
+# -------------------------------------------------------
+Arresto_Momentum:
+  name: "Arresto Momentum"
+  description: "Ralentit drastiquement la cible."
+  parameters:
+    mana: 20
+    cooldown: 8000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 14
+      - class: PotionEffect
+        add_effects:
+          slowness: 5
+        duration: 4000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.elder_guardian.curse
+        sound_pitch: 1.1
+      - trail: end_rod
+        trail_step: 0.4
+        particle_offset_x: 0.03
+        particle_offset_y: 0.03
+        particle_offset_z: 0.03
+        fallback_range: 14
+      - particle: end_rod
+        particle_count: 40
+        particle_offset_x: 0.4
+        particle_offset_y: 0.9
+        particle_offset_z: 0.4
+        particle_target: target
+      - particle: snowflake
+        particle_count: 20
+        particle_offset_x: 0.3
+        particle_offset_y: 0.7
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Bombarda — Explosion rapide
+# -------------------------------------------------------
+Bombarda:
+  name: "Bombarda"
+  description: "Explosion rapide qui inflige des dégâts légers."
+  parameters:
+    mana: 20
+    cooldown: 3000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 14
+      - class: Damage
+        amount: 6
+      - class: PotionEffect
+        add_effects:
+          slowness: 1
+        duration: 1500
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.generic.explode
+        sound_pitch: 1.4
+        sound_volume: 0.8
+      - trail: flame
+        trail_step: 0.3
+        particle_offset_x: 0.04
+        particle_offset_y: 0.04
+        particle_offset_z: 0.04
+        fallback_range: 14
+      - particle: explosion
+        particle_count: 10
+        particle_offset_x: 0.4
+        particle_offset_y: 0.6
+        particle_offset_z: 0.4
+        particle_target: target
+      - particle: flame
+        particle_count: 30
+        particle_offset_x: 0.3
+        particle_offset_y: 0.5
+        particle_offset_z: 0.3
+        particle_target: target
+
+# -------------------------------------------------------
+# Bombarda_Maxima — Explosion dévastatrice (même mécanique, plus forte)
+# -------------------------------------------------------
+Bombarda_Maxima:
+  name: "Bombarda Maxima"
+  description: "Explosion dévastatrice à large portée et fort impact."
+  parameters:
+    mana: 45
+    cooldown: 12000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 20
+      - class: Damage
+        amount: 14
+      - class: PotionEffect
+        add_effects:
+          slowness: 2
+        duration: 3000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.generic.explode
+        sound_pitch: 0.6
+        sound_volume: 2.0
+      - trail: flame
+        trail_step: 0.2
+        particle_offset_x: 0.07
+        particle_offset_y: 0.07
+        particle_offset_z: 0.07
+        fallback_range: 20
+      - particle: explosion
+        particle_count: 35
+        particle_offset_x: 0.8
+        particle_offset_y: 1.0
+        particle_offset_z: 0.8
+        particle_target: target
+      - particle: flame
+        particle_count: 60
+        particle_offset_x: 0.6
+        particle_offset_y: 0.9
+        particle_offset_z: 0.6
+        particle_target: target
+      - particle: large_smoke
+        particle_count: 40
+        particle_offset_x: 0.7
+        particle_offset_y: 1.2
+        particle_offset_z: 0.7
+        particle_target: target
+
+# -------------------------------------------------------
+# Expecto_Patronum — Patronus (repousse et blesse les ennemis proches)
+# -------------------------------------------------------
+Expecto_Patronum:
+  name: "Expecto Patronum"
+  description: "Invoque un Patronus qui repousse et blesse les ennemis proches."
+  parameters:
+    mana: 50
+    cooldown: 30000
+
+  actions:
+    cast:
+      - class: RaytraceHit
+        range: 6
+      - class: Damage
+        amount: 8
+      - class: PotionEffect
+        add_effects:
+          slowness: 3
+          weakness: 2
+        duration: 4000
+        target: target
+
+  effects:
+    cast:
+      - sound: entity.elder_guardian.ambient
+        sound_pitch: 1.4
+        sound_volume: 1.5
+      - particle: end_rod
+        particle_count: 80
+        particle_offset_x: 0.8
+        particle_offset_y: 1.5
+        particle_offset_z: 0.8
+      - particle: totem
+        particle_count: 60
+        particle_offset_x: 0.6
+        particle_offset_y: 1.2
+        particle_offset_z: 0.6
+      - particle: spell
+        particle_count: 40
+        particle_offset_x: 0.5
+        particle_offset_y: 1.0
+        particle_offset_z: 0.5
+        particle_target: target

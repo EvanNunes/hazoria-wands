@@ -2,7 +2,7 @@ package hazoria.fr.hazoriaWands.listener;
 
 import hazoria.fr.hazoriaWands.spell.Spell;
 import hazoria.fr.hazoriaWands.spell.SpellRegistry;
-import hazoria.fr.hazoriaWands.spell.impl.ProtegoSpell;
+import hazoria.fr.hazoriaWands.spell.action.impl.ShieldAction;
 import hazoria.fr.hazoriaWands.util.Colors;
 import hazoria.fr.hazoriaWands.wand.WandItemService;
 import hazoria.fr.hazoriaWands.wand.WandState;
@@ -30,9 +30,9 @@ public class WandListener implements Listener {
                         WandItemService wandItemService,
                         WandStateService wandStateService,
                         SpellRegistry spellRegistry) {
-        this.wandItemService = wandItemService;
+        this.wandItemService  = wandItemService;
         this.wandStateService = wandStateService;
-        this.spellRegistry = spellRegistry;
+        this.spellRegistry    = spellRegistry;
         this.messages = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "messages.yml"));
     }
 
@@ -55,13 +55,15 @@ public class WandListener implements Listener {
             case RIGHT_CLICK_AIR, RIGHT_CLICK_BLOCK -> {
                 wandItemService.cycleSpell(item);
                 String spellId = wandItemService.getSelectedSpellId(item);
-                p.sendMessage(Colors.color(messages.getString("spell_switched").replace("%spell%", String.valueOf(spellId))));
+                p.sendMessage(Colors.color(messages.getString("spell_switched")
+                        .replace("%spell%", String.valueOf(spellId))));
             }
             case LEFT_CLICK_AIR, LEFT_CLICK_BLOCK -> {
                 String spellId = wandItemService.getSelectedSpellId(item);
                 Spell spell = spellRegistry.get(spellId);
                 if (spell == null) {
-                    p.sendMessage(Colors.color(messages.getString("unknown_spell").replace("%spell%", String.valueOf(spellId))));
+                    p.sendMessage(Colors.color(messages.getString("unknown_spell")
+                            .replace("%spell%", String.valueOf(spellId))));
                     return;
                 }
 
@@ -87,12 +89,15 @@ public class WandListener implements Listener {
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof Player p)) return;
-        if (!p.hasMetadata(ProtegoSpell.META_PROTEGO_UNTIL)) return;
+        if (!p.hasMetadata(ShieldAction.META_SHIELD_UNTIL)) return;
 
-        long until = p.getMetadata(ProtegoSpell.META_PROTEGO_UNTIL).get(0).asLong();
+        long until = p.getMetadata(ShieldAction.META_SHIELD_UNTIL).get(0).asLong();
         if (System.currentTimeMillis() > until) return;
 
-        // Bouclier: -60% dégâts
-        e.setDamage(e.getDamage() * 0.4);
+        double reduction = 0.6;
+        if (p.hasMetadata(ShieldAction.META_SHIELD_REDUCTION)) {
+            reduction = p.getMetadata(ShieldAction.META_SHIELD_REDUCTION).get(0).asDouble();
+        }
+        e.setDamage(e.getDamage() * (1.0 - reduction));
     }
 }
