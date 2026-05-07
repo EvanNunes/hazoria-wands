@@ -53,13 +53,13 @@ public class WandListener implements Listener {
 
         switch (e.getAction()) {
             case RIGHT_CLICK_AIR, RIGHT_CLICK_BLOCK -> {
-                wandItemService.cycleSpell(item);
-                String spellId = wandItemService.getSelectedSpellId(item);
+                wandItemService.cycleSpell(p.getUniqueId());
+                String spellId = wandItemService.getSelectedSpellId(p.getUniqueId());
                 p.sendMessage(Colors.color(messages.getString("spell_switched")
                         .replace("%spell%", String.valueOf(spellId))));
             }
             case LEFT_CLICK_AIR, LEFT_CLICK_BLOCK -> {
-                String spellId = wandItemService.getSelectedSpellId(item);
+                String spellId = wandItemService.getSelectedSpellId(p.getUniqueId());
                 Spell spell = spellRegistry.get(spellId);
                 if (spell == null) {
                     p.sendMessage(Colors.color(messages.getString("unknown_spell")

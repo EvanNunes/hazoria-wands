@@ -11,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -121,22 +120,13 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        ItemStack wand = findWand(target);
-        if (wand == null) {
-            sender.sendMessage(Colors.color("&c" + target.getName() + " ne possède pas de baguette."));
-            return;
-        }
-
-        List<String> spells = new ArrayList<>(wandItemService.getSpells(wand));
+        List<String> spells = new ArrayList<>(wandItemService.getSpells(target.getUniqueId()));
         if (spells.contains(spellId)) {
             sender.sendMessage(Colors.color("&c" + target.getName() + " possède déjà ce sort."));
             return;
         }
         spells.add(spellId);
-
-        var meta = wand.getItemMeta();
-        wandItemService.setSpells(meta, spells);
-        wand.setItemMeta(meta);
+        wandItemService.setSpells(target.getUniqueId(), spells);
 
         // Auto-débloque le sort pour le joueur
         List<String> unlocked = playerDataService.loadUnlockedSpells(target.getUniqueId());
@@ -160,21 +150,13 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
         }
 
         String spellId = args[2].toLowerCase();
-        ItemStack wand = findWand(target);
-        if (wand == null) {
-            sender.sendMessage(Colors.color("&c" + target.getName() + " ne possède pas de baguette."));
-            return;
-        }
 
-        List<String> spells = new ArrayList<>(wandItemService.getSpells(wand));
+        List<String> spells = new ArrayList<>(wandItemService.getSpells(target.getUniqueId()));
         if (!spells.remove(spellId)) {
             sender.sendMessage(Colors.color("&c" + target.getName() + " ne possède pas ce sort."));
             return;
         }
-
-        var meta = wand.getItemMeta();
-        wandItemService.setSpells(meta, spells);
-        wand.setItemMeta(meta);
+        wandItemService.setSpells(target.getUniqueId(), spells);
 
         sender.sendMessage(Colors.color("&aSort &e" + spellId + "&a retiré de &e" + target.getName() + "&a."));
     }
@@ -209,15 +191,6 @@ public class WandsCommand implements CommandExecutor, TabCompleter {
         ((HazoriaWands) plugin).reload();
         loadMessages();
         sender.sendMessage(Colors.color("&aHazoriaWands rechargé."));
-    }
-
-    private ItemStack findWand(Player player) {
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (item != null && wandItemService.isWand(item) && wandItemService.isOwner(player, item)) {
-                return item;
-            }
-        }
-        return null;
     }
 
     private void sendHelp(CommandSender sender) {

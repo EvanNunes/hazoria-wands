@@ -39,8 +39,8 @@ public final class HazoriaWands extends JavaPlugin {
         this.spellRegistry = new SpellRegistry();
         new SpellLoader(this).load().forEach(spellRegistry::register);
 
-        this.wandItemService  = new WandItemService(this);
         this.playerDataService = new PlayerDataService(this);
+        this.wandItemService  = new WandItemService(this, playerDataService);
         this.wandStateService = new WandStateService(this, wandItemService, playerDataService);
         wandStateService.startManaRegenTask();
 
@@ -50,7 +50,7 @@ public final class HazoriaWands extends JavaPlugin {
         getServer().getPluginManager().registerEvents(
                 new WandListener(this, wandItemService, wandStateService, spellRegistry), this);
         getServer().getPluginManager().registerEvents(
-                new WandProtectionListener(wandItemService), this);
+                new WandProtectionListener(this, wandItemService), this);
         getServer().getPluginManager().registerEvents(
                 new PlayerSessionListener(wandStateService, playerDataService), this);
 

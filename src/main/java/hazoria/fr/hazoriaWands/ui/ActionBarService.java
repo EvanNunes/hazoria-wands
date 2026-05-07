@@ -34,7 +34,7 @@ public class ActionBarService {
                 if (!wandItemService.isWand(wand)) continue;
                 if (!wandItemService.isOwner(p, wand)) continue;
 
-                String spellId = wandItemService.getSelectedSpellId(wand);
+                String spellId = wandItemService.getSelectedSpellId(p.getUniqueId());
                 int mana = wandStateService.getMana(p.getUniqueId());
 
                 String cdPart = "";

@@ -64,7 +64,7 @@ public class SpellSelectionGui implements Listener {
         }
 
         List<String> unlocked = playerDataService.loadUnlockedSpells(player.getUniqueId());
-        List<String> equipped  = new ArrayList<>(wandItemService.getSpells(wand));
+        List<String> equipped  = new ArrayList<>(wandItemService.getSpells(player.getUniqueId()));
 
         if (slot < SPELLS_AREA_SIZE) {
             if (slot >= unlocked.size()) return;
@@ -78,29 +78,27 @@ public class SpellSelectionGui implements Listener {
                 player.sendMessage(Colors.color("&cMaximum &e" + MAX_EQUIPPED + " &csorts équipés !"));
                 return;
             }
-            applyAndRefresh(wand, equipped, e.getInventory(), player);
+            applyAndRefresh(equipped, e.getInventory(), player, wand);
 
         } else if (slot >= EQUIPPED_START && slot < EQUIPPED_START + MAX_EQUIPPED) {
             int idx = slot - EQUIPPED_START;
             if (idx < equipped.size()) {
                 equipped.remove(idx);
-                applyAndRefresh(wand, equipped, e.getInventory(), player);
+                applyAndRefresh(equipped, e.getInventory(), player, wand);
             }
         }
     }
 
-    private void applyAndRefresh(ItemStack wand, List<String> equipped, Inventory inv, Player player) {
-        ItemMeta meta = wand.getItemMeta();
-        wandItemService.setSpells(meta, equipped);
-        wandItemService.setSelectedIndex(meta, 0);
-        wand.setItemMeta(meta);
+    private void applyAndRefresh(List<String> equipped, Inventory inv, Player player, ItemStack wand) {
+        wandItemService.setSpells(player.getUniqueId(), equipped);
+        wandItemService.setSelectedIndex(player.getUniqueId(), 0);
         inv.clear();
         populate(inv, player, wand);
     }
 
     private void populate(Inventory inv, Player player, ItemStack wand) {
         List<String> unlocked = playerDataService.loadUnlockedSpells(player.getUniqueId());
-        List<String> equipped  = new ArrayList<>(wandItemService.getSpells(wand));
+        List<String> equipped  = new ArrayList<>(wandItemService.getSpells(player.getUniqueId()));
 
         // Sorts débloqués (rows 0-3)
         for (int i = 0; i < unlocked.size() && i < SPELLS_AREA_SIZE; i++) {

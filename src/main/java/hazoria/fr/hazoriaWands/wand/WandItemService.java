@@ -1,5 +1,6 @@
 package hazoria.fr.hazoriaWands.wand;
 
+import hazoria.fr.hazoriaWands.player.PlayerDataService;
 import hazoria.fr.hazoriaWands.util.Colors;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -11,26 +12,23 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 public class WandItemService {
 
     private final JavaPlugin plugin;
+    private final PlayerDataService playerDataService;
 
     private final NamespacedKey KEY_WAND;
     private final NamespacedKey KEY_OWNER;
-    private final NamespacedKey KEY_SPELLS;
-    private final NamespacedKey KEY_SELECTED;
     private final NamespacedKey KEY_WAND_TYPE;
 
-    public WandItemService(JavaPlugin plugin) {
+    public WandItemService(JavaPlugin plugin, PlayerDataService playerDataService) {
         this.plugin = plugin;
+        this.playerDataService = playerDataService;
         this.KEY_WAND      = new NamespacedKey(plugin, "wand");
         this.KEY_OWNER     = new NamespacedKey(plugin, "owner");
-        this.KEY_SPELLS    = new NamespacedKey(plugin, "spells");
-        this.KEY_SELECTED  = new NamespacedKey(plugin, "selected");
         this.KEY_WAND_TYPE = new NamespacedKey(plugin, "wand_type");
     }
 
@@ -60,10 +58,16 @@ public class WandItemService {
         pdc.set(KEY_OWNER,     PersistentDataType.STRING, owner.getUniqueId().toString());
         pdc.set(KEY_WAND_TYPE, PersistentDataType.STRING, type.id);
 
-        setSpells(meta, type.defaultSpells);
-        setSelectedIndex(meta, 0);
-
         item.setItemMeta(meta);
+
+        // Initialise les sorts équipés du joueur s'ils sont vides (premier wand)
+        List<String> equipped = playerDataService.loadEquippedSpells(owner.getUniqueId());
+        if (equipped.isEmpty() && !type.defaultSpells.isEmpty()) {
+            List<String> seed = new ArrayList<>(type.defaultSpells);
+            playerDataService.saveEquippedSpells(owner.getUniqueId(), seed);
+            playerDataService.saveSelectedIndex(owner.getUniqueId(), 0);
+        }
+
         return item;
     }
 
@@ -84,44 +88,33 @@ public class WandItemService {
         return owner != null && owner.equals(player.getUniqueId());
     }
 
-    public List<String> getSpells(ItemStack item) {
-        if (!isWand(item)) return List.of();
-        ItemMeta meta = item.getItemMeta();
-        String raw = meta.getPersistentDataContainer().get(KEY_SPELLS, PersistentDataType.STRING);
-        if (raw == null || raw.isBlank()) return List.of();
-        return new ArrayList<>(Arrays.asList(raw.split(",")));
+    public List<String> getSpells(UUID playerId) {
+        return playerDataService.loadEquippedSpells(playerId);
     }
 
-    public void setSpells(ItemMeta meta, List<String> spells) {
-        meta.getPersistentDataContainer().set(KEY_SPELLS, PersistentDataType.STRING, String.join(",", spells));
+    public void setSpells(UUID playerId, List<String> spells) {
+        playerDataService.saveEquippedSpells(playerId, spells);
     }
 
-    public int getSelectedIndex(ItemStack item) {
-        if (!isWand(item)) return 0;
-        Integer idx = item.getItemMeta().getPersistentDataContainer().get(KEY_SELECTED, PersistentDataType.INTEGER);
-        return idx == null ? 0 : Math.max(0, idx);
+    public int getSelectedIndex(UUID playerId) {
+        return playerDataService.loadSelectedIndex(playerId);
     }
 
-    public void setSelectedIndex(ItemMeta meta, int idx) {
-        meta.getPersistentDataContainer().set(KEY_SELECTED, PersistentDataType.INTEGER, Math.max(0, idx));
+    public void setSelectedIndex(UUID playerId, int idx) {
+        playerDataService.saveSelectedIndex(playerId, idx);
     }
 
-    public void cycleSpell(ItemStack wand) {
-        if (!isWand(wand)) return;
-        List<String> spells = getSpells(wand);
+    public void cycleSpell(UUID playerId) {
+        List<String> spells = getSpells(playerId);
         if (spells.isEmpty()) return;
-
-        ItemMeta meta = wand.getItemMeta();
-        int idx = getSelectedIndex(wand);
-        idx = (idx + 1) % spells.size();
-        setSelectedIndex(meta, idx);
-        wand.setItemMeta(meta);
+        int idx = (getSelectedIndex(playerId) + 1) % spells.size();
+        setSelectedIndex(playerId, idx);
     }
 
-    public String getSelectedSpellId(ItemStack wand) {
-        List<String> spells = getSpells(wand);
+    public String getSelectedSpellId(UUID playerId) {
+        List<String> spells = getSpells(playerId);
         if (spells.isEmpty()) return null;
-        int idx = getSelectedIndex(wand);
+        int idx = getSelectedIndex(playerId);
         if (idx >= spells.size()) idx = 0;
         return spells.get(idx);
     }

@@ -1,6 +1,7 @@
 package hazoria.fr.hazoriaWands.listener;
 
 import hazoria.fr.hazoriaWands.wand.WandItemService;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -16,13 +17,25 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class WandProtectionListener implements Listener {
 
+    private final JavaPlugin plugin;
     private final WandItemService wandItemService;
+    private final Map<UUID, List<ItemStack>> deathWands = new ConcurrentHashMap<>();
 
-    public WandProtectionListener(WandItemService wandItemService) {
+    public WandProtectionListener(JavaPlugin plugin, WandItemService wandItemService) {
+        this.plugin = plugin;
         this.wandItemService = wandItemService;
     }
 
@@ -60,7 +73,26 @@ public class WandProtectionListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
-        e.getDrops().removeIf(item -> wandItemService.isWand(item) && wandItemService.isOwner(player, item));
+        List<ItemStack> kept = new ArrayList<>();
+        Iterator<ItemStack> it = e.getDrops().iterator();
+        while (it.hasNext()) {
+            ItemStack item = it.next();
+            if (wandItemService.isWand(item) && wandItemService.isOwner(player, item)) {
+                kept.add(item.clone());
+                it.remove();
+            }
+        }
+        if (!kept.isEmpty()) deathWands.put(player.getUniqueId(), kept);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onRespawn(PlayerRespawnEvent e) {
+        List<ItemStack> kept = deathWands.remove(e.getPlayer().getUniqueId());
+        if (kept == null) return;
+        Player player = e.getPlayer();
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            for (ItemStack w : kept) player.getInventory().addItem(w);
+        });
     }
 
     @EventHandler(priority = EventPriority.HIGH)
