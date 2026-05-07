@@ -13,6 +13,7 @@ Acromantula:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -32,6 +33,7 @@ Basilic:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -51,6 +53,7 @@ Dragon:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -70,6 +73,7 @@ Phenix:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -89,6 +93,7 @@ Thestral:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -108,6 +113,7 @@ Hippogriffe:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -127,6 +133,7 @@ Strangulot:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -146,6 +153,7 @@ Licorne:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -165,6 +173,7 @@ Mandragore:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -184,6 +193,7 @@ Detraqueur:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -203,6 +213,7 @@ Sirene:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -222,6 +233,7 @@ Parapluie_Magique:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -241,6 +253,7 @@ Sceptre_de_Foloeil:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"
@@ -260,6 +273,7 @@ Patronus:
   mana_max: 100
   mana_start: 100
   mana_regeneration: 5
+  # tooltip: "itemsadder:wand_tooltip"  # ID d'un tooltip défini dans ton pack ItemsAdder
   spells:
     - "Stupefix"
     - "Protego"

@@ -53,6 +53,8 @@ public class WandItemService {
         for (String line : type.lore) coloredLore.add(Colors.color(line));
         meta.setLore(coloredLore);
 
+        applyTooltipStyle(meta, type.tooltip);
+
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         pdc.set(KEY_WAND,      PersistentDataType.BYTE,   (byte) 1);
         pdc.set(KEY_OWNER,     PersistentDataType.STRING, owner.getUniqueId().toString());
@@ -122,5 +124,16 @@ public class WandItemService {
         int idx = getSelectedIndex(wand);
         if (idx >= spells.size()) idx = 0;
         return spells.get(idx);
+    }
+
+    private void applyTooltipStyle(ItemMeta meta, String tooltip) {
+        if (tooltip == null || tooltip.isBlank()) return;
+
+        NamespacedKey key = NamespacedKey.fromString(tooltip);
+        if (key == null) {
+            plugin.getLogger().warning("Invalid tooltip key '" + tooltip + "' (expected 'namespace:id')");
+            return;
+        }
+        meta.setTooltipStyle(key);
     }
 }

@@ -13,10 +13,11 @@ public class WandType {
     public final int manaRegen;
     public final List<String> defaultSpells;
     public final String effectColor;
+    public final String tooltip;
 
     public WandType(String id, String displayName, String material, int customModelData,
                     List<String> lore, int manaMax, int manaStart, int manaRegen,
-                    List<String> defaultSpells, String effectColor) {
+                    List<String> defaultSpells, String effectColor, String tooltip) {
         this.id = id;
         this.displayName = displayName;
         this.material = material;
@@ -27,5 +28,6 @@ public class WandType {
         this.manaRegen = manaRegen;
         this.defaultSpells = defaultSpells;
         this.effectColor = effectColor;
+        this.tooltip = tooltip;
     }
 }

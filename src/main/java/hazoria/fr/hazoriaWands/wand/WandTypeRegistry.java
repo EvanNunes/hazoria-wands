@@ -65,13 +65,14 @@ public class WandTypeRegistry {
         int manaStart        = section.getInt("mana_start", 100);
         int manaRegen        = section.getInt("mana_regeneration", 5);
         String effectColor   = section.getString("effect_color", "ffffff");
+        String tooltip       = section.getString("tooltip");
 
         List<String> rawSpells = section.getStringList("spells");
         List<String> spellIds  = new ArrayList<>();
         for (String s : rawSpells) spellIds.add(s.toLowerCase());
 
         return new WandType(key.toLowerCase(), displayName, material, customModelData,
-                lore, manaMax, manaStart, manaRegen, spellIds, effectColor);
+                lore, manaMax, manaStart, manaRegen, spellIds, effectColor, tooltip);
     }
 
     public WandType get(String id) {
